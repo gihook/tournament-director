@@ -11,6 +11,21 @@ defmodule ContractCalculator do
   def calculate_result(contract), do: calculate_defeted_contract(contract)
 
   defp calculate_defeted_contract(%Contract{
+         penalty: :doubled,
+         number_of_overtricks: number_of_overtricks,
+         vulnerability: vulnerability
+       }) do
+    map = %{
+      green: [100, 300, 500, 800, 1100, 1400, 1700, 2000, 2300, 2600, 2900, 3200, 3500],
+      red: [200, 500, 800, 1100, 1400, 1700, 2000, 2300, 2600, 2900, 3200, 3500, 3800]
+    }
+
+    index = number_of_overtricks * -1 - 1
+    value = map[vulnerability] |> Enum.at(index)
+    value * -1
+  end
+
+  defp calculate_defeted_contract(%Contract{
          number_of_overtricks: number_of_overtricks,
          vulnerability: vulnerability
        }) do

@@ -206,4 +206,43 @@ defmodule ContractCalculatorTest do
 
     assert result == -150
   end
+
+  test "2 clubs doubled | -3 | non vulnerable = -500" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :clubs,
+        level: 2,
+        penalty: :doubled,
+        number_of_overtricks: -3,
+        vulnerability: :green
+      })
+
+    assert result == -500
+  end
+
+  test "5 clubs doubled | -7 | vulnerable = -2000" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :clubs,
+        level: 5,
+        penalty: :doubled,
+        number_of_overtricks: -7,
+        vulnerability: :red
+      })
+
+    assert result == -2000
+  end
+
+  test "2 clubs doubled | -2 | vulnerable = -500" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :clubs,
+        level: 2,
+        penalty: :doubled,
+        number_of_overtricks: -2,
+        vulnerability: :red
+      })
+
+    assert result == -500
+  end
 end
