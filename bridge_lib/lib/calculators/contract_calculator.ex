@@ -57,8 +57,13 @@ defmodule ContractCalculator do
     contract_points + penalty_bonus + game_bonus + slam_bonus + award_for_overtricks
   end
 
+  defp calculate_penalty_bonus(:redoubled), do: 100
   defp calculate_penalty_bonus(:doubled), do: 50
   defp calculate_penalty_bonus(_penalty), do: 0
+
+  defp calculate_contract_points(%Contract{penalty: :redoubled} = contract) do
+    calculate_contract_points(%Contract{contract | penalty: :none}) * 4
+  end
 
   defp calculate_contract_points(%Contract{penalty: :doubled} = contract) do
     calculate_contract_points(%Contract{contract | penalty: :none}) * 2
@@ -73,6 +78,15 @@ defmodule ContractCalculator do
 
   defp award_for_contract(:notrump), do: 10
   defp award_for_contract(_suit), do: 0
+
+  defp calculate_overtirck_points(%Contract{
+         number_of_overtricks: number_of_overtricks,
+         penalty: :redoubled,
+         vulnerability: vulnerability
+       }) do
+    map = %{red: 400, green: 200}
+    number_of_overtricks * map[vulnerability]
+  end
 
   defp calculate_overtirck_points(%Contract{
          number_of_overtricks: number_of_overtricks,
