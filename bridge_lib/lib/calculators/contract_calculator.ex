@@ -10,6 +10,14 @@ defmodule ContractCalculator do
 
   def calculate_result(contract), do: calculate_defeted_contract(contract)
 
+  defp calculate_defeted_contract(
+         %Contract{
+           penalty: :redoubled
+         } = contract
+       ) do
+    calculate_defeted_contract(%Contract{contract | penalty: :doubled}) * 2
+  end
+
   defp calculate_defeted_contract(%Contract{
          penalty: :doubled,
          number_of_overtricks: number_of_overtricks,
