@@ -1,0 +1,108 @@
+@startuml
+enum CardValue {
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		J,
+		Q,
+		K,
+		A,
+
+}
+
+enum Suit {
+		Clubs,
+		Diamonds,
+		Hearts,
+		Spades
+}
+
+class Card {
+		+CardValue value;
+		+Suit suit;
+}
+
+enum Level {
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7
+}
+
+enum Penalty {
+		None,
+		Double,
+		Redouble
+}
+
+enum Vulnerability {
+		None,
+		NS,
+		EW,
+		Both
+}
+
+class Contract {
+		+Suit suit;
+		+Level level;
+		+Penalty penalty;
+}
+
+class ContractResult {
+		+Contract contract;
+		+int numberOfTricks;
+}
+
+class PlayerHand {
+		+Card[]	spades;
+		+Card[]	hearts;
+		+Card[]	diamonds;
+		+Card[]	clubs;
+}
+
+class Board {
+		+int number;
+		+Vulnerability vulnerability;
+
+		+PlayerHand northCards;
+		+PlayerHand southCards;
+		+PlayerHand eastCards;
+		+PlayerHand westCards;
+}
+
+class BoardResult {
+		+int boardNumber;
+		+ContractResult[] results;
+}
+
+class Player {
+		+Guid userId;
+		+string name;
+}
+
+class Pair {
+		+string pairId;
+		+Player[] players;
+}
+
+class PairResult {
+		+Pair pair;
+		+double result;
+}
+
+class Tournament {
+		+Board[] boards;
+		+BoardResult[] boardResults;
+		+Pair[] pairs;
+}
+
+@enduml
