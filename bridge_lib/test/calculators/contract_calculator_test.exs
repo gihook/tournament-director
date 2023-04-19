@@ -168,6 +168,19 @@ defmodule ContractCalculatorTest do
     assert result == 120
   end
 
+  test "3 notrump | +1 | non vulnerable = 430" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :notrump,
+        level: 3,
+        penalty: :none,
+        number_of_overtricks: 1,
+        vulnerability: :green
+      })
+
+    assert result == 430
+  end
+
   test "7 NT | = | vulnerable = 2220" do
     result =
       ContractCalculator.calculate_result(%Contract{
@@ -270,5 +283,96 @@ defmodule ContractCalculatorTest do
       })
 
     assert result == -600
+  end
+
+  test "1 hearts doubled | = | non vulnerable = 160" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :hearts,
+        level: 1,
+        penalty: :doubled,
+        number_of_overtricks: 0,
+        vulnerability: :green
+      })
+
+    assert result == 160
+  end
+
+  test "2 hearts doubled | = | vulnerable = 670" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :hearts,
+        level: 2,
+        penalty: :doubled,
+        number_of_overtricks: 0,
+        vulnerability: :red
+      })
+
+    assert result == 670
+  end
+
+  test "2 notrump doubled | = | non vulnerable = 490" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :notrump,
+        level: 2,
+        penalty: :doubled,
+        number_of_overtricks: 0,
+        vulnerability: :green
+      })
+
+    assert result == 490
+  end
+
+  test "3 diamonds doubled | +1 | non vulnerable = 570" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :diamonds,
+        level: 3,
+        penalty: :doubled,
+        number_of_overtricks: 1,
+        vulnerability: :green
+      })
+
+    assert result == 570
+  end
+
+  test "3 diamonds doubled | +2 | non vulnerable = 1070" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :diamonds,
+        level: 3,
+        penalty: :doubled,
+        number_of_overtricks: 2,
+        vulnerability: :red
+      })
+
+    assert result == 1070
+  end
+
+  test "5 hearts doubled | +2 | vulnerable = 1250" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :hearts,
+        level: 5,
+        penalty: :doubled,
+        number_of_overtricks: 2,
+        vulnerability: :red
+      })
+
+    assert result == 1250
+  end
+
+  test "6 NT doubled | +1 | non vulnerable = 1330" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :notrump,
+        level: 6,
+        penalty: :doubled,
+        number_of_overtricks: 1,
+        vulnerability: :green
+      })
+
+    assert result == 1330
   end
 end

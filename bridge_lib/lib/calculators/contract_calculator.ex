@@ -44,15 +44,24 @@ defmodule ContractCalculator do
   defp calculate_made_contract(
          %Contract{
            level: level,
-           vulnerability: vulnerability
+           vulnerability: vulnerability,
+           penalty: penalty
          } = contract
        ) do
     contract_points = calculate_contract_points(contract)
     award_for_overtricks = calculate_overtirck_points(contract)
+    penalty_bonus = calculate_penalty_bonus(penalty)
     game_bonus = calculate_game_bonus(contract_points, vulnerability)
     slam_bonus = calculate_slam_bonus(level, vulnerability)
 
-    contract_points + award_for_overtricks + game_bonus + slam_bonus
+    contract_points + penalty_bonus + game_bonus + slam_bonus + award_for_overtricks
+  end
+
+  defp calculate_penalty_bonus(:doubled), do: 50
+  defp calculate_penalty_bonus(_penalty), do: 0
+
+  defp calculate_contract_points(%Contract{penalty: :doubled} = contract) do
+    calculate_contract_points(%Contract{contract | penalty: :none}) * 2
   end
 
   defp calculate_contract_points(%Contract{suit: suit, level: level}) do
@@ -62,8 +71,17 @@ defmodule ContractCalculator do
     award_for_contract + award_for_level
   end
 
-  defp award_for_contract(:notrump), do: 60
-  defp award_for_contract(_suit), do: 50
+  defp award_for_contract(:notrump), do: 10
+  defp award_for_contract(_suit), do: 0
+
+  defp calculate_overtirck_points(%Contract{
+         number_of_overtricks: number_of_overtricks,
+         penalty: :doubled,
+         vulnerability: vulnerability
+       }) do
+    map = %{red: 200, green: 100}
+    number_of_overtricks * map[vulnerability]
+  end
 
   defp calculate_overtirck_points(%Contract{
          number_of_overtricks: number_of_overtricks,
@@ -72,12 +90,12 @@ defmodule ContractCalculator do
     number_of_overtricks * trick_value(suit)
   end
 
-  defp calculate_game_bonus(contract_points, vulnerability) when contract_points >= 150 do
-    map = %{red: 450, green: 250}
+  defp calculate_game_bonus(contract_points, vulnerability) when contract_points >= 100 do
+    map = %{red: 500, green: 300}
     map[vulnerability]
   end
 
-  defp calculate_game_bonus(_contract_points, _vulnerability), do: 0
+  defp calculate_game_bonus(_contract_points, _vulnerability), do: 50
 
   defp calculate_slam_bonus(6, :green), do: 500
   defp calculate_slam_bonus(6, :red), do: 750
