@@ -93,7 +93,7 @@ defmodule ContractCalculatorTest do
   test "7 diamonds | = | vulnerable = 2140" do
     result =
       ContractCalculator.calculate_result(%Contract{
-        suit: :clubs,
+        suit: :diamonds,
         level: 7,
         penalty: :none,
         number_of_overtricks: 0,
@@ -101,5 +101,57 @@ defmodule ContractCalculatorTest do
       })
 
     assert result == 2140
+  end
+
+  test "2 hearts | +3 | vulnerable = 200" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :hearts,
+        level: 2,
+        penalty: :none,
+        number_of_overtricks: 3,
+        vulnerability: :red
+      })
+
+    assert result == 200
+  end
+
+  test "5 spades | +2 | vulnerable = 710" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :spades,
+        level: 5,
+        penalty: :none,
+        number_of_overtricks: 2,
+        vulnerability: :red
+      })
+
+    assert result == 710
+  end
+
+  test "6 spades | +1 | non vulnerable = 1010" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :spades,
+        level: 6,
+        penalty: :none,
+        number_of_overtricks: 1,
+        vulnerability: :green
+      })
+
+    assert result == 1010
+  end
+
+  test "7 hearts | = | vulnerable = 2210" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :hearts,
+        level: 7,
+        penalty: :none,
+        number_of_overtricks: 0,
+        vulnerability: :red
+      })
+
+    assert result == 2210
   end
 end
