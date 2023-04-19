@@ -14,11 +14,14 @@ defmodule ContractCalculator do
   end
 
   defp calculate_contract_points(%Contract{suit: suit, level: level}) do
-    award_for_contract = 50
+    award_for_contract = award_for_contract(suit)
     award_for_level = level * trick_value(suit)
 
     award_for_contract + award_for_level
   end
+
+  defp award_for_contract(:notrump), do: 60
+  defp award_for_contract(_suit), do: 50
 
   defp calculate_overtirck_points(%Contract{
          number_of_overtricks: number_of_overtricks,
@@ -44,4 +47,5 @@ defmodule ContractCalculator do
   defp trick_value(:diamonds), do: 20
   defp trick_value(:hearts), do: 30
   defp trick_value(:spades), do: 30
+  defp trick_value(:notrump), do: 30
 end
