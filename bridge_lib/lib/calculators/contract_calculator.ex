@@ -79,30 +79,17 @@ defmodule ContractCalculator do
   defp award_for_contract(:notrump), do: 10
   defp award_for_contract(_suit), do: 0
 
-  defp calculate_overtirck_points(%Contract{
-         number_of_overtricks: number_of_overtricks,
-         penalty: :redoubled,
-         vulnerability: vulnerability
-       }) do
-    map = %{red: 400, green: 200}
-    number_of_overtricks * map[vulnerability]
+  defp calculate_overtirck_points(
+         %Contract{number_of_overtricks: number_of_overtricks} = contract
+       ) do
+    number_of_overtricks * overtrick_value(contract)
   end
 
-  defp calculate_overtirck_points(%Contract{
-         number_of_overtricks: number_of_overtricks,
-         penalty: :doubled,
-         vulnerability: vulnerability
-       }) do
-    map = %{red: 200, green: 100}
-    number_of_overtricks * map[vulnerability]
-  end
-
-  defp calculate_overtirck_points(%Contract{
-         number_of_overtricks: number_of_overtricks,
-         suit: suit
-       }) do
-    number_of_overtricks * trick_value(suit)
-  end
+  defp overtrick_value(%Contract{penalty: :redoubled, vulnerability: :red}), do: 400
+  defp overtrick_value(%Contract{penalty: :redoubled, vulnerability: :green}), do: 200
+  defp overtrick_value(%Contract{penalty: :doubled, vulnerability: :red}), do: 200
+  defp overtrick_value(%Contract{penalty: :doubled, vulnerability: :green}), do: 100
+  defp overtrick_value(%Contract{suit: suit}), do: trick_value(suit)
 
   defp calculate_game_bonus(contract_points, vulnerability) when contract_points >= 100 do
     map = %{red: 500, green: 300}
