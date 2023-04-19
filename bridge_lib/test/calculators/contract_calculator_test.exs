@@ -180,4 +180,30 @@ defmodule ContractCalculatorTest do
 
     assert result == 2220
   end
+
+  test "7 NT | -1 | vulnerable = -100" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :notrump,
+        level: 7,
+        penalty: :none,
+        number_of_overtricks: -1,
+        vulnerability: :red
+      })
+
+    assert result == -100
+  end
+
+  test "3 clubs | -3 | non vulnerable = -150" do
+    result =
+      ContractCalculator.calculate_result(%Contract{
+        suit: :clubs,
+        level: 3,
+        penalty: :none,
+        number_of_overtricks: -3,
+        vulnerability: :green
+      })
+
+    assert result == -150
+  end
 end

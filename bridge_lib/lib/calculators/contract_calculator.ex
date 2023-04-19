@@ -1,10 +1,29 @@
 defmodule ContractCalculator do
   def calculate_result(
         %Contract{
-          level: level,
-          vulnerability: vulnerability
+          number_of_overtricks: number_of_overtricks
         } = contract
-      ) do
+      )
+      when number_of_overtricks >= 0 do
+    calculate_made_contract(contract)
+  end
+
+  def calculate_result(contract), do: calculate_defeted_contract(contract)
+
+  defp calculate_defeted_contract(%Contract{
+         number_of_overtricks: number_of_overtricks,
+         vulnerability: vulnerability
+       }) do
+    map = %{red: 100, green: 50}
+    number_of_overtricks * map[vulnerability]
+  end
+
+  defp calculate_made_contract(
+         %Contract{
+           level: level,
+           vulnerability: vulnerability
+         } = contract
+       ) do
     contract_points = calculate_contract_points(contract)
     award_for_overtricks = calculate_overtirck_points(contract)
     game_bonus = calculate_game_bonus(contract_points, vulnerability)
