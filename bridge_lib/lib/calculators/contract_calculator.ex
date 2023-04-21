@@ -1,4 +1,6 @@
 defmodule ContractCalculator do
+  def calculate_result(%Contract{suit: :pass}), do: 0
+
   def calculate_result(
         %Contract{
           number_of_overtricks: number_of_overtricks

@@ -1,6 +1,5 @@
 defmodule ContractCalculatorTest do
   use ExUnit.Case
-  doctest BridgeLib
 
   test "1 cl | +1 = 90" do
     result =

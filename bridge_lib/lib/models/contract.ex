@@ -1,4 +1,15 @@
 defmodule Contract do
   @enforce_keys [:suit, :level, :number_of_overtricks]
-  defstruct [:suit, :level, :number_of_overtricks, penalty: :none, vulnerability: :green]
+  defstruct [
+    :ns_pair,
+    :ew_pair,
+    :declearer,
+    :suit,
+    :level,
+    :number_of_overtricks,
+    :lead,
+    :score,
+    penalty: :none,
+    vulnerability: :green
+  ]
 end
