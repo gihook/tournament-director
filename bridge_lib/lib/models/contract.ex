@@ -9,6 +9,8 @@ defmodule Contract do
     :number_of_overtricks,
     :lead,
     :score,
+    :ns_score,
+    :ew_score,
     penalty: :none,
     vulnerability: :green
   ]
