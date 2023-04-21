@@ -16,4 +16,12 @@ defmodule BoardMetadataTest do
     assert vulnerability == :all
     assert dealer == :south
   end
+
+  test "board 32 west is dealer and ew vulnerable" do
+    vulnerability = BoardMetadata.vulnerability(32)
+    dealer = BoardMetadata.dealer(32)
+
+    assert vulnerability == :ew
+    assert dealer == :west
+  end
 end
