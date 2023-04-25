@@ -1,5 +1,5 @@
 defmodule Tournament do
-  defstruct [:id, :director_user_id, :status, :current_round, pairs: [], boards: []]
+  defstruct [:id, :director_user_id, :status, current_round: 0, pairs: [], boards: []]
 
   def initialize() do
     boards = 1..8 |> Enum.map(&Board.initialize/1)
@@ -12,5 +12,8 @@ defmodule Tournament do
   def register_pair(%Tournament{pairs: pairs} = tournament, pair) do
     updated_pairs = [pair | pairs]
     %Tournament{tournament | pairs: updated_pairs}
+  end
+
+  def set_movement() do
   end
 end
